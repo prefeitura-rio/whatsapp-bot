@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  whatsapp-api:
+    build: ./src/whatsapp-api
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=info
+      - MESSAGE_HANDLE_URL=http://handler-api:8000/message
+    cap_add:
+      - SYS_ADMIN
