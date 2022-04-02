@@ -23,7 +23,8 @@ Implementação de um bot de WhatsApp usando Python para lidar com as mensagens.
 
 ### Usando `docker-compose` (recomendado para desenvolvimento)
 
-- Observe o arquivo `deploy/docker-compose/docker-compose.yaml`. Altere-o conforme suas necessidades e suba!
+- No diretório `deploy/docker-compose/` você encontrará as instruções para subir usando Docker Compose. Altere o arquivo `docker-compose.yaml` para atender suas
+  necessidades.
 
 ### Usando Kubernetes
 
