@@ -18,6 +18,9 @@ def handle(message: Message) -> str: # pylint: disable=unused-argument
         message: The message to handle.
 
     Returns:
-        The response to send back to the user.
+        The response to send back to the user. If it returns
+        None, the message will be ignored.
     """
-    return "Yay! You sent me a message!"
+    if message.from_ == "somebody_you_know":
+        return "Hello, I'm a bot!"
+    return None

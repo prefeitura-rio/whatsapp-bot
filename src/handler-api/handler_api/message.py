@@ -54,7 +54,7 @@ class Message: # pylint: disable=too-many-instance-attributes,too-many-public-me
     """
 
 
-    def __init__(self, message_json: str):
+    def __init__(self, message_dict: dict):
         """
         Message objects are a way of easing interaction with the messages
         sent from the WhatsApp client.
@@ -99,7 +99,6 @@ class Message: # pylint: disable=too-many-instance-attributes,too-many-public-me
             - vcards (List[str])
         """
         # Let's keep the raw message
-        message_dict: dict = json.loads(message_json)
         self._raw_message: dict = message_dict
 
         # Then parse all attributes

@@ -9,7 +9,7 @@ It has only three endpoints:
     /send
     - POST: Sends a message to a user.
         - Takes a JSON body with the following fields:
-            - user_id: The ID of the user to send the message to.
+            - chat_id: The ID of the user to send the message to.
             - message: The message to send.
         - Returns a JSON body with the following fields:
             - success: Whether the message was sent successfully.
@@ -49,14 +49,17 @@ def send_message():
     body = request.get_json()
 
     # Get the user ID and message from the request body.
-    user_id = get_key(body, "user_id")
-    message = get_key(body, "message")
+    try:
+        chat_id = get_key(body, "chat_id")
+        message = get_key(body, "message")
+    except KeyError:
+        return "Body must be a JSON with the following fields: chat_id, message", 400
 
     # Build a POST request to SEND_MESSAGE_URL
     # with the user ID and message as parameters.
     response = requests.post(
         SEND_MESSAGE_URL,
-        json={"to": user_id, "text": message}
+        json={"to": chat_id, "text": message}
     )
 
     # Handle the response.

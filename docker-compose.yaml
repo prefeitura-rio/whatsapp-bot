@@ -17,3 +17,5 @@ services:
       - MESSAGE_HANDLE_URL=http://handler-api/message
     cap_add:
       - SYS_ADMIN
+    volumes:
+      - ./data:/whatsapp-data:rw

@@ -1,8 +1,10 @@
 //
 // Imports
-const express = require("express");
-const qrcode = require("qrcode-terminal");
 const { Client, LocalAuth } = require("whatsapp-web.js");
+const express = require("express");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const qrcode = require("qrcode-terminal");
 const winston = require("winston");
 
 //
@@ -25,6 +27,15 @@ const logger = winston.createLogger({
     })
   ]
 });
+
+//
+// Function for handling HTTP errors
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}
 
 //
 // Construct the WhatsApp Client
@@ -61,11 +72,22 @@ client.on("message", message => {
   };
   logger.debug("Posting message to " + MESSAGE_HANDLER_URL);
   fetch(MESSAGE_HANDLER_URL, options)
+    .then(handleErrors)
     .then(response => response.json())
     .then(response => {
-      // Send the response back to the sender.
-      logger.debug("Sending response " + response + " to " + message.from);
-      client.sendMessage(message.from, response.text);
+      // Check if there's text to send back.
+      if (response.text) {
+        // Send the response back to the sender.
+        logger.debug(
+          'Sending response "' + response.text + '" to ' + message.from
+        );
+        client.sendMessage(message.from, response.text);
+      } else {
+        logger.debug("No response to send.");
+      }
+    })
+    .catch(error => {
+      logger.error("Error while handling message:", error);
     });
 });
 
@@ -73,6 +95,7 @@ client.on("message", message => {
 // Construct the Express Server
 // and set callback functions
 var app = express();
+app.use(express.json());
 
 // - Sets the app listening on the correct port.
 app.listen(3000, () => {
