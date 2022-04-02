@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   handler-api:
-    build: ./src/handler-api
+    build: ../../src/handler-api
     restart: unless-stopped
     environment:
       - SEND_MESSAGE_URL=http://whatsapp-api:3000/send
@@ -10,7 +10,7 @@ services:
       - "8020:80"
 
   whatsapp-api:
-    build: ./src/whatsapp-api
+    build: ../../src/whatsapp-api
     restart: unless-stopped
     environment:
       - LOG_LEVEL=info
@@ -18,4 +18,4 @@ services:
     cap_add:
       - SYS_ADMIN
     volumes:
-      - ./data:/whatsapp-data:rw
+      - ../../data:/whatsapp-data:rw
