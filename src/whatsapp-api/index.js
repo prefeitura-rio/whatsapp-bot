@@ -1,6 +1,6 @@
 //
 // Imports
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const { Client, LocalAuth, WAState } = require("whatsapp-web.js");
 const express = require("express");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -100,6 +100,21 @@ app.use(express.json());
 // - Sets the app listening on the correct port.
 app.listen(3000, () => {
   logger.info("Express server is listening on port 3000."); // Log the event.
+});
+
+// - Listens to GET requests on the /health endpoint.
+app.get("/health", (req, res) => {
+  // Checks for the client state
+  client.getState().then(state => {
+    console.log("GET /health:", state);
+    // If the client is logged in, send a 200 response.
+    if (state === WAState.CONNECTED || state === WAState.PAIRING) {
+      res.status(200).send("OK");
+    } else {
+      // Otherwise, send a 503 response.
+      res.status(503).send("Service Unavailable");
+    }
+  });
 });
 
 // - Listens to POST requests on the /send endpoint.
