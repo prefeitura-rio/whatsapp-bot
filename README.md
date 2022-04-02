@@ -5,8 +5,6 @@ Implementação de um bot de WhatsApp usando Python para lidar com as mensagens.
 > **Nota:** Esse repositório é um template para desenvolvimento de bots de WhatsApp usando Python
 > para lidar com as mensagens.
 
----
-
 ## Como funciona?
 
 - Esse projeto faz uso da [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js/) para
@@ -27,6 +25,6 @@ Implementação de um bot de WhatsApp usando Python para lidar com as mensagens.
 
 - Observe o arquivo `deploy/docker-compose/docker-compose.yaml`. Altere-o conforme suas necessidades e suba!
 
-### Kubernetes
+### Usando Kubernetes
 
 - No diretório `deploy/kubernetes/`, você terá os manifestos para deploy da aplicação em um cluster Kubernetes. Altere-os conforme suas necessidades.
