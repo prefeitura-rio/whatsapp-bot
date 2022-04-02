@@ -26,6 +26,31 @@ Implementação de um bot de WhatsApp usando Python para lidar com as mensagens.
 - No diretório `deploy/docker-compose/` você encontrará as instruções para subir usando Docker Compose. Altere o arquivo `docker-compose.yaml` para atender suas
   necessidades.
 
-### Usando Kubernetes
+### Usando Helm
 
-- No diretório `deploy/kubernetes/`, você terá os manifestos para deploy da aplicação em um cluster Kubernetes. Altere-os conforme suas necessidades.
+- Adicione o repositório Helm do Escritório de Dados:
+
+```
+helm repo add prefeitura-rio https://helm.dados.rio
+helm repo update
+```
+
+- Crie um arquivo chamado `values.yaml` para realizar a configuração do seu deployment. A configuração mínima é:
+
+```yaml
+handler_api:
+  image:
+    name: "your-company/handler-api"
+    tag: "your-tag"
+
+whatsapp_api:
+  image:
+    name: "your-company/whatsapp-api"
+    tag: "your-tag"
+```
+
+- Aplique o seu deployment:
+
+```
+helm install whatsapp-bot -f values.yaml prefeitura-rio/whatsapp-bot
+```
