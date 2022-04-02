@@ -54,3 +54,24 @@ whatsapp_api:
 ```
 helm install whatsapp-bot -f values.yaml prefeitura-rio/whatsapp-bot
 ```
+
+## Como usar?
+
+- Primeiramente, você deve se autenticar. Para isso, nos logs do container do `whatsapp-api`, serão emitidos
+  QR codes para você escanear e entrar no WhatsApp.
+
+- Em seguida, caso você tenha habilitado a persistência dos dados de sessão (é feita por padrão), esse passo
+  não será mais necessário quando sua aplicação reiniciar.
+
+- Por padrão, para as mensagens recebidas pelo bot, a função `handle` é chamada e a resposta emitida por ela
+  é enviada para o WhatsApp.
+
+- Além disso, para enviar mensagens arbitrárias, basta emitir requisições POST para o endpoint `/send` da `handler-api`.
+  O formato da requisição é:
+
+```
+{
+  "chat_id": "identificador-do-chat",
+  "message": "mensagem-que-sera-enviada"
+}
+```
